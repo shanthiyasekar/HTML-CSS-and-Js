@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/sample/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
     <title>Login Page</title>
 </head>
 <body>
@@ -12,11 +15,19 @@
     <div class="login-container">
         <h2>User Registration</h2>
         <form id="userRegisterForm">
-            <label for="newUserUsername">Username:</label>
-            <input type="text" id="newUserUsername" name="newUserUsername" required><br>
+            <label for="newUsername">Username:</label>
+            <input type="text" id="newUsername" name="newUsername" required><br>
             <label for="newUserPassword">Password:</label>
             <input type="password" id="newUserPassword" name="newUserPassword" required><br>
-            <button type="button" class="login-button" id="userRegister">Register</button>
+            <label for="newUserConfirmPassword">Confirm Password:</label>
+            <input type="password" id="newUserConfirmPassword" name="newUserConfirmPassword" required><br>
+            <hr>
+            <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+            <button type="submit" class="login-button"  id="userRegister">Register</button>
+            <div class="container signin">
+                <p>Already have an account? <a href="sign.html">Sign in</a>.</p>
+            </div>
+
         </form>
     </div>
 </div>
@@ -33,6 +44,29 @@
     </div>
 </div>
 
+<script>
+    $(document).ready(function()
+    {
+        $('#adminLogin').on('click', function()
+        {
+            const username = $('#adminUsername').val();
+            const password = $('#adminPassword').val();
+      
+            // Assuming simple authentication
+            if(password===""||username==="")
+                alert("Fill the details");
+            else if (username === 'admin' && password === 'password') 
+            {
+                window.location.href = 'next_page.html';
+            }
+            else 
+            {
+                $('#utilizationBody').empty();
+                alert('Invalid credentials. Please try again.');
+            }
+        });
+    });
+</script>
 
 
 </body>
