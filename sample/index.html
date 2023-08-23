@@ -93,7 +93,7 @@
             if(checkDataInLocal)
               alert("this email id is already registered");
             //console.log(emailEl);
-          //  $('#emailError').text("");
+            $('#emailError').text("");
 
             let allfields=true;
             if(!usernameEl)
@@ -125,11 +125,12 @@
                
 
                 //password validation
-                if(passwordEl.length < 6) 
+                var pass=/^[A-Za-z0-9+]{8,15}$/;
+                if(!pass.test(passwordEl)) 
                 {
-                  $('#pwderror').text("Password must be at least 6 characters long.");
+                    $('#pwderror').text("Password must be contain 8-15 char with atleast one upper,lowercase and digit.");
                 }
-                else if(passwordEl.length>=6)
+                else 
                 {
                   $('#pwderror').text("");
                  
