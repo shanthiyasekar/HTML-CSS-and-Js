@@ -43,7 +43,7 @@
             //here i am retreving all the datas stored in local to continue with previous tasks 
             const storedData = JSON.parse(localStorage.getItem('Data')) || [];
             const registrationData=JSON.parse(localStorage.getItem('registrationData'))||[];
-            console.log(registrationData);
+            //console.log(registrationData);
 
             //to check whether any slots are filled previously ,during loading the page it helps us alot
             const slotVacancy=getDetailsForVacancy(storedData);
@@ -94,12 +94,12 @@
                 {
                     $('#price').text('Please fill in all the fields correctly.');
                 }
-            })
+            });
             function calculatePrice(duration)
             {
                 const ratePerHour=10;
                 return ratePerHour*duration;
-            }some()
+            }
             function sendToLocalStoreAge(Data)
             {
              //   const storedData = JSON.parse(localStorage.getItem('Data')) || [];
