@@ -33,16 +33,19 @@
         <input type="submit" id="calPrice" value="Calculate Price">
         <p id="price">
         </p>
-        <a href="index.html">LogOut</a>
+        <input type="submit" id="booknow" value="Book Slot"><br>
+        <p id="bookSuccess"></p>
+        <a href="#" id="logout">LogOut</a>
     </form>
     
 
     <script>
         $(document).ready(function()
-        {
+        {   
+            
             //here i am retreving all the datas stored in local to continue with previous tasks 
             const storedData = JSON.parse(localStorage.getItem('Data')) || [];
-            const registrationData=JSON.parse(localStorage.getItem('registrationData'))||[];
+            const ActiveUserData=JSON.parse(localStorage.getItem('ActiveUser'))||[];
             //console.log(registrationData);
 
             //to check whether any slots are filled previously ,during loading the page it helps us alot
@@ -71,19 +74,6 @@
                        // console.log(price);
                         $('#price').text(`Price for Slot ${slotEl}: $${price}`);
                         slotVacancy[slotEl-1]=true;
-
-                        const len=registrationData.length;
-                        
-                        //here we are sending all the data that we got from user to local storage for future uses
-                        const Data={
-                            slot:slotEl,
-                            vehicleNo:vehicleEl,
-                            duration:durationEl,
-                            price:price,
-                            timestamp:timestamp,
-                            username:registrationData[len-1].username
-                        }
-                        sendToLocalStoreAge(Data);
                     }
                     else
                     {
@@ -95,6 +85,33 @@
                     $('#price').text('Please fill in all the fields correctly.');
                 }
             });
+            //after clicking booknow it goes to local storage
+            $('#booknow').click(function()
+            {
+                event.preventDefault();
+                const len=ActiveUserData.length;
+                const slotEl=parseInt($('#slot').val());
+                const vehicleEl=$('#vno').val();
+                const durationEl=parseFloat($('#duration').val());
+                const currentTimeStamp = new Date();
+                const timestamp= currentTimeStamp.toString();
+                //here we are sending all the data that we got from user to local storage for future uses
+                const Data={
+                    slot:slotEl,
+                    vehicleNo:vehicleEl,
+                    duration:durationEl,
+                    price:price,
+                    timestamp:timestamp,
+                    username:ActiveUserData[len-1].username
+                }
+                sendToLocalStoreAge(Data);
+                $('#bookSuccess').text("Successfully Booked");
+            })
+            $('#logout').click(function()
+            {
+                localStorage.removeItem('ActiveUser');
+                window.location.href ="index.html";
+            })
             function calculatePrice(duration)
             {
                 const ratePerHour=10;
