@@ -1,10 +1,21 @@
 
-form {
-    width: 100%;
+body {
+    
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin:0;
+    
+}
+form
+{   
+    width: 100%; 
     max-width: 300px;
-    margin: 0 auto;
+    text-align: center;
     padding: 20px;
-    border: 5px solid black;
+    border: 1px solid black;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -41,4 +52,5 @@ button:hover {
     margin-top: 15px;
     font-size: 18px;
     font-weight: bold;
+    /* text-align: center; */
 }

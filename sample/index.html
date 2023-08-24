@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/sample/style.css">
-   
-
+    <link rel="stylesheet" href="/style.css">
     <title>Login Page</title>
 </head>
 <body>
@@ -74,15 +72,14 @@
             }
             else 
             {
-                $('#utilizationBody').empty();
+                
                 alert('Invalid credentials. Please try again.');
             }
         });
 
         $("#userRegister").on('click',function()
-       // $('#userRegister').submit(function(event)
+   
         {
-            //event.preventDefault();
             const usernameEl=$('#newUsername').val();
             const emailEl=$('#email').val();
             const passwordEl=$('#newUserPassword').val();
@@ -90,20 +87,17 @@
 
             //checking whether the data is present in local storage or not
             const checkDataInLocal=storedData.find(data=>data.email===emailEl);
-            if(checkDataInLocal)
+            if(checkDataInLocal){
               alert("this email id is already registered");
+              return;
+            }
             //console.log(emailEl);
             $('#emailError').text("");
 
             let allfields=true;
-            if(!usernameEl)
+            if(!usernameEl||!emailEl||!passwordEl||!confirmPasswordEl)
               allfields=false;
-            if( !emailEl )
-              allfields=false;
-            if(!passwordEl)
-              allfields=false;
-            if(!confirmPasswordEl)
-              allfields=false;
+           
             if ( !allfields) {
                 $('#registrationError').text('All fields must be filled.');
                 return;
