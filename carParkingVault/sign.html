@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <title>Document</title>
 </head>
@@ -18,18 +18,22 @@
                 <input type="email" id="email" name="email"><br>
                 <label for="userPassword">Password:</label>
                 <input type="password" id="userPassword" name="userPassword" required><br>
-                <button type="button" class="login-button" id="userLogin" >Login</button>
+                <p id="usererror" style="color:red"></p>
+                <input type="submit" class="login-button" id="userLogin" value="Login">
             </form>
         </div>
     </div>
     <script>
         $(document).ready(function() 
         {   
+          
             const registrationDataJson=localStorage.getItem("registrationData");
+            const activeData=JSON.parse(localStorage.getItem("ActiveUser"))||[];
             // console.log(localStorage.getItem("registrationData"));
             // console.log(registrationDataJson)
-            $('#userLogin').on('click',function()
+            $('#userLoginForm').submit(function(event)
             {
+                event.preventDefault();
                 const usernameEl=$('#username').val();
                 const emailEl=$('#email').val();
                 const passwordEl=$('#userPassword').val();
@@ -40,7 +44,26 @@
                     {
                         let found=false;
                         const registrationData=JSON.parse(registrationDataJson);
-                        for(const data in registrationData)
+
+                        const retrievedData=registrationData.filter(data=>usernameEl===data.username&&emailEl===data.email&&passwordEl===data.password)
+                        
+                        //console.log(retrievedData);
+                        //console.log(retrievedData.length)
+                        if(retrievedData.length>0)
+                        {
+                            found=true;
+                            const signinData={
+                                username:usernameEl
+                            }
+                        
+                            activeData.push(signinData);
+                            const activeDataJson=JSON.stringify(activeData);
+                            localStorage.setItem("ActiveUser",activeDataJson);
+                            window.location.href = 'user.html';
+                        }
+                        
+                           
+                       /* for(const data in registrationData)
                         {
                             //  console.log(data);
                             if(usernameEl===registrationData[data].username&&emailEl===registrationData[data].email&&passwordEl===registrationData[data].password)
@@ -49,17 +72,16 @@
                                 window.location.href = 'user.html';
                                 break;
                             }
-                        }
+                        }*/
                         if(!found)
-                            alert("wrong details or user have not registered yet");
-                   
+                        {
+                            $('#usererror').text("wrong details or user have not registered yet");
+                        }
+                     
                     }
                 }
                 else
                     alert("all details must be filled");
-                
-              
-               
             });
         });
     </script>

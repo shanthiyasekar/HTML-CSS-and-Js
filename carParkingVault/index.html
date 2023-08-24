@@ -25,10 +25,11 @@
 
             <label for="newUserConfirmPassword">Confirm Password:</label>
             <input type="password" id="newUserConfirmPassword" name="newUserConfirmPassword" required><br>
+            <p id="confirmError" style="color: red"></p>
 
             <hr>
             <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-            <button type="button" class="login-button" id="userRegister">Register</button>
+            <input type="submit" class="login-button" id="userRegister" value="Register">
             <p id="registrationError" style="color: red"></p>
             <p id="success"></p>
             <div class="container signin">
@@ -46,7 +47,8 @@
             <input type="text" id="adminUsername" name="adminUsername" required><br>
             <label for="adminPassword">Password:</label>
             <input type="password" id="adminPassword" name="adminPassword" required><br>
-            <button type="button" class="login-button" id="adminLogin">Login</button>
+            <p id="invalid" style="color:red"></p>
+            <input type="submit" class="login-button" id="adminLogin" value="Login">
         </form>
     </div>
 </div>
@@ -58,28 +60,31 @@
     {
         
         const storedData = JSON.parse(localStorage.getItem('registrationData')) || [];
-        $('#adminLogin').on('click', function()
+        $('#adminLoginForm').submit(function()
         {
+            event.preventDefault();
             const username = $('#adminUsername').val();
             const password = $('#adminPassword').val();
           
             // Assuming simple authentication 
+            $('#invalid').text("");
             if(password===""||username==="")
+            {
                 alert("Fill the admin details");
+            }
             else if (username === 'admin' && password === 'password') 
             {
                 window.location.href = 'next_page.html';
             }
             else 
             {
-                
-                alert('Invalid credentials. Please try again.');
+                $('#invalid').text('Invalid credentials. Please try again.');
             }
         });
 
-        $("#userRegister").on('click',function()
-   
+        $("#userRegisterForm").submit(function(event)   
         {
+            event.preventDefault();
             const usernameEl=$('#newUsername').val();
             const emailEl=$('#email').val();
             const passwordEl=$('#newUserPassword').val();
@@ -87,7 +92,8 @@
 
             //checking whether the data is present in local storage or not
             const checkDataInLocal=storedData.find(data=>data.email===emailEl);
-            if(checkDataInLocal){
+            if(checkDataInLocal)
+            {
               alert("this email id is already registered");
               return;
             }
@@ -96,69 +102,69 @@
 
             let allfields=true;
             if(!usernameEl||!emailEl||!passwordEl||!confirmPasswordEl)
-              allfields=false;
+            {
+                    allfields=false;
+            }
            
-            if ( !allfields) {
+            if ( !allfields) 
+            {
                 $('#registrationError').text('All fields must be filled.');
                 return;
-            } else {
+            } 
+            else
+            {
                 $('#registrationError').text('');
             }
             
             
             //email validation
           
-            if (!validateEmail(emailEl)&&emailEl) {
-                $('#emailError').text('Please enter a valid email address.');
-              
+            if (!validateEmail(emailEl)&&emailEl) 
+            {
+                $('#emailError').text('Please enter a valid email address.');  
               //  console.log("error in email");
             } 
             else 
             { 
-                console.log("no error in email")
-               
-
+                //console.log("no error in email")
                 //password validation
-                var pass=/^[A-Za-z0-9+]{8,15}$/;
+                const pass=/^[A-Za-z0-9+]{8,15}$/;
                 if(!pass.test(passwordEl)) 
                 {
                     $('#pwderror').text("Password must be contain 8-15 char with atleast one upper,lowercase and digit.");
                 }
                 else 
                 {
-                  $('#pwderror').text("");
-                 
-                
-                  if(usernameEl&&passwordEl&&confirmPasswordEl&&emailEl)
-                  {
-                      if(passwordEl===confirmPasswordEl)
-                      {
-                        const registrationData=
+                    $('#pwderror').text("");
+                    if(usernameEl&&passwordEl&&confirmPasswordEl&&emailEl)
+                    {
+                        if(passwordEl===confirmPasswordEl)
                         {
-                          username:usernameEl,
-                          password:passwordEl,
-                          email:emailEl,  
-                          confirmPassword:confirmPasswordEl
+                            const registrationData=
+                            {
+                                username:usernameEl,
+                                password:passwordEl,
+                                email:emailEl,  
+                                confirmPassword:confirmPasswordEl
+                            }
+                            if(!checkDataInLocal)
+                            {
+                                storedData.push(registrationData); 
+                                const registrationDataJson=JSON.stringify(storedData);
+                                localStorage.setItem('registrationData',registrationDataJson);
+                            }
+                           
+                            $('#emailError').text('');
+                            $('#success').text("Registered Successfully,you can sign in");
                         }
-                        if(!checkDataInLocal)
+                        else
                         {
-                        storedData.push(registrationData); 
-                        const registrationDataJson=JSON.stringify(storedData);
-
-                        localStorage.setItem('registrationData',registrationDataJson);
+                            $('#confirmError').text("password must be matched");
                         }
-                        // $('#success').text("registered successfully signin now");
-                        $('#emailError').text('');
-                        $('#success').text("Registered Successfully,you can sign in");
-                      }
-                      else
-                      {
-                        alert("password must be matched");
-                      }
-                  }
+                    }
                 }
                 
-              }
+            }
             function validateEmail(email) 
             {
               const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

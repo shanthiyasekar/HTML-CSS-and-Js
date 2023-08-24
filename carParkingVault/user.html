@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/car/style.css">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="userstyle.css">
     <title>Document</title>
@@ -30,7 +30,7 @@
         <label for="duration">Duration in hours:</label>
         <input type="text" placeholder="Enter the Duration" id="duration" name="duration">
 
-        <button type="button" id="calPrice">Calculate Price</button>
+        <input type="submit" id="calPrice" value="Calculate Price">
         <p id="price">
         </p>
     </form>
@@ -39,16 +39,18 @@
     <script>
         $(document).ready(function()
         {
-            
             //here i am retreving all the datas stored in local to continue with previous tasks 
             const storedData = JSON.parse(localStorage.getItem('Data')) || [];
+            const registrationData=JSON.parse(localStorage.getItem('registrationData'))||[];
+            console.log(registrationData);
 
             //to check whether any slots are filled previously ,during loading the page it helps us alot
             const slotVacancy=getDetailsForVacancy(storedData);
 
 
-            $('#calPrice').on('click',()=>
+            $('#userpage').submit(function(event)
             {
+                event.preventDefault();
                 const slotEl=parseInt($('#slot').val());
                 const vehicleEl=$('#vno').val();
                 const durationEl=parseFloat($('#duration').val());
@@ -69,13 +71,16 @@
                         $('#price').text(`Price for Slot ${slotEl}: $${price}`);
                         slotVacancy[slotEl-1]=true;
 
+                        const len=registrationData.length;
+                        
                         //here we are sending all the data that we got from user to local storage for future uses
                         const Data={
                             slot:slotEl,
                             vehicleNo:vehicleEl,
                             duration:durationEl,
                             price:price,
-                            timestamp:timestamp
+                            timestamp:timestamp,
+                            username:registrationData[len-1].username
                         }
                         sendToLocalStoreAge(Data);
                     }
@@ -109,7 +114,7 @@
                     {
                         vacancy[data.slot-1]=true;
                     }
-                })
+                });
                 return vacancy;
             }
         });
