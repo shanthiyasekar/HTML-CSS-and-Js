@@ -20,18 +20,18 @@
             <p id="emailError" style="color: red"></p> 
 
             <label for="newUserPassword">Password:</label>
-            <input type="password" id="newUserPassword" name="newUserPassword" required>
+            <input type="text" id="newUserPassword" name="newUserPassword" required>
             <p id="pwderror" style="color: red"></p>
 
             <label for="newUserConfirmPassword">Confirm Password:</label>
-            <input type="password" id="newUserConfirmPassword" name="newUserConfirmPassword" required><br>
+            <input type="text" id="newUserConfirmPassword" name="newUserConfirmPassword" required><br>
             <p id="confirmError" style="color: red"></p>
 
             <hr>
             <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
             <input type="submit" class="login-button" id="userRegister" value="Register">
             <p id="registrationError" style="color: red"></p>
-            <p id="success"></p>
+            <p id="success" style="color:darkgreen"></p>
             <div class="container signin">
                 <p>Already have an account? <a href="sign.html">Sign in</a>.</p>
             </div>
@@ -99,7 +99,7 @@
             }
             //console.log(emailEl);
             $('#emailError').text("");
-
+            $('#confirmError').text("");
             let allfields=true;
             if(!usernameEl||!emailEl||!passwordEl||!confirmPasswordEl)
             {
@@ -128,7 +128,7 @@
             { 
                 //console.log("no error in email")
                 //password validation
-                const pass=/^[A-Za-z0-9+]{8,15}$/;
+                const pass=/^[A-Za-z0-9+!@#$%^&*]{8,15}$/;
                 if(!pass.test(passwordEl)) 
                 {
                     $('#pwderror').text("Password must be contain 8-15 char with atleast one upper,lowercase and digit.");
