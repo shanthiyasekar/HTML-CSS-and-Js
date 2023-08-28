@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Login Page</title>
 </head>
 <body>
@@ -20,11 +20,11 @@
             <p id="emailError" style="color: red"></p> 
 
             <label for="newUserPassword">Password:</label>
-            <input type="text" id="newUserPassword" name="newUserPassword" required>
+            <input type="password" id="newUserPassword" name="newUserPassword" required>
             <p id="pwderror" style="color: red"></p>
 
             <label for="newUserConfirmPassword">Confirm Password:</label>
-            <input type="text" id="newUserConfirmPassword" name="newUserConfirmPassword" required><br>
+            <input type="password" id="newUserConfirmPassword" name="newUserConfirmPassword" required><br>
             <p id="confirmError" style="color: red"></p>
 
             <hr>
@@ -91,7 +91,8 @@
             const confirmPasswordEl=$('#newUserConfirmPassword').val();
 
             //checking whether the data is present in local storage or not
-            const checkDataInLocal=storedData.find(data=>data.email===emailEl);
+            const checkDataInLocal=storedData.some(data=>data.email===emailEl);
+            console.log(checkDataInLocal);
             if(checkDataInLocal)
             {
               alert("this email id is already registered");
