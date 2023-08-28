@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <title>Document</title>
 </head>
@@ -42,28 +42,32 @@
                 {
                     if(registrationDataJson)
                     {
-                        let found=false;
+                        
                         const registrationData=JSON.parse(registrationDataJson);
 
-                        const retrievedData=registrationData.filter(data=>usernameEl===data.username&&emailEl===data.email&&passwordEl===data.password)
+                        const found=registrationData.some(data=>usernameEl===data.username&&emailEl===data.email&&passwordEl===data.password)
                         
-                        //console.log(retrievedData);
+                       
                         //console.log(retrievedData.length)
-                        if(retrievedData.length>0)
+                        if(found)
                         {
-                            found=true;
+                            
                             const signinData={
                                 username:usernameEl,
                                 email:emailEl,
                                 password:passwordEl
                             }
-                        
+                           //console.log(found);
                             activeData.push(signinData);
                             const activeDataJson=JSON.stringify(activeData);
                             localStorage.setItem("ActiveUser",activeDataJson);
                             window.location.href = 'user.html';
                         }
-                        
+                        else
+                        {
+                            //console.log(found);
+                            $('#usererror').text("wrong details or user have not registered yet");
+                        }
                            
                        /* for(const data in registrationData)
                         {
@@ -75,10 +79,7 @@
                                 break;
                             }
                         }*/
-                        if(!found)
-                        {
-                            $('#usererror').text("wrong details or user have not registered yet");
-                        }
+                       
                      
                     }
                 }
