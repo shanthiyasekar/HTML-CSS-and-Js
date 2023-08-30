@@ -19,6 +19,9 @@
                 <label for="userPassword">Password:</label>
                 <input type="password" id="userPassword" name="userPassword" required><br>
                 <p id="usererror" style="color:red"></p>
+                <div id="notRegistered">
+
+                </div>
                 <input type="submit" class="login-button" id="userLogin" value="Login">
             </form>
         </div>
@@ -26,7 +29,7 @@
     <script>
         $(document).ready(function() 
         {   
-          
+            
             const registrationDataJson=localStorage.getItem("registrationData");
             const activeData=JSON.parse(localStorage.getItem("ActiveUser"))||[];
             // console.log(localStorage.getItem("registrationData"));
@@ -67,6 +70,13 @@
                         {
                             //console.log(found);
                             $('#usererror').text("wrong details or user have not registered yet");
+                            let registerButton=$('<button>',{
+                                text:'Register',
+                                click: function(){
+                                    window.location.href='index.html';
+                                }
+                            })
+                            $('#notRegistered').html(registerButton);
                         }
                            
                        /* for(const data in registrationData)

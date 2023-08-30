@@ -34,6 +34,11 @@
         <p id="price">
         </p>
         <input type="submit" id="booknow" value="Book Slot"><br>
+        <p id="failureText"></p>
+        <div id="bookFailure">
+            
+        </div>
+        
         <p id="bookSuccess"></p>
         <a href="#" id="logout">LogOut</a>
     </form>
@@ -42,7 +47,7 @@
     <script>
         $(document).ready(function()
         {   
-            
+          
             //here i am retreving all the datas stored in local to continue with previous tasks 
             const storedData = JSON.parse(localStorage.getItem('Data')) || [];
             const ActiveUserData=JSON.parse(localStorage.getItem('ActiveUser'))||[];
@@ -50,8 +55,8 @@
 
             //to check whether any slots are filled previously ,during loading the page it helps us alot
             const slotVacancy=getDetailsForVacancy(storedData);
-
-
+            let calculated=false;
+           
             $('#userpage').submit(function(event)
             {
                 event.preventDefault();
@@ -63,7 +68,7 @@
                 //console.log(slotEl);
                 //console.log(vehicleEl);
                 //console.log(durationEl);
-               
+              
                 //checking whether the slot given is b/w 1 to 6 and duration >0
                 if(slotEl&&!isNaN(slotEl)&&slotEl>=1&&slotEl<=6&&vehicleEl&&durationEl>0)
                 {
@@ -71,6 +76,7 @@
                     if(!slotVacancy[slotEl-1])
                     {
                         const price=calculatePrice(durationEl);
+                        calculated=true;
                        // console.log(price);
                         $('#price').text(`Price for Slot ${slotEl}: $${price}`);
                         slotVacancy[slotEl-1]=true;
@@ -89,6 +95,11 @@
             $('#booknow').click(function()
             {
                 event.preventDefault();
+                if(!calculated)
+                {
+                    alert("Please calculate the price before booking");
+                    return;
+                }
                 const len=ActiveUserData.length;
                 const slotEl=parseInt($('#slot').val());
                 const vehicleEl=$('#vno').val();
@@ -96,21 +107,50 @@
                 const currentTimeStamp = new Date();
                 const timestamp= currentTimeStamp.toString();
                 //here we are sending all the data that we got from user to local storage for future uses
-                const Data={
-                    slot:slotEl,
-                    vehicleNo:vehicleEl,
-                    duration:durationEl,
-                    price:price,
-                    timestamp:timestamp,
-                    username:ActiveUserData[len-1].username
+                $('#failureText').text("");
+                if(slotEl&&!isNaN(slotEl)&&slotEl>=1&&slotEl<=6&&vehicleEl&&durationEl>0)
+                {
+                    //if any slot is filled it shows not vacent
+                   
+                        if(len>0)
+                        {
+                            const price=calculatePrice(durationEl);
+                            const Data={
+                                slot:slotEl,
+                                vehicleNo:vehicleEl,
+                                duration:durationEl,
+                                price:price,
+                                timestamp:timestamp,
+                                username:ActiveUserData[len-1].username
+                            }
+                            sendToLocalStoreAge(Data);
+                            $('#bookSuccess').text("Successfully Booked");
+                            calculated=false;
+                        }
+                        else
+                        {
+                            $('#failureText').text("No activeUser,signin");
+                            let bookFailureButton=$('<button>',{
+                                text:'Login',
+                                click: function(){
+                                    window.location.href='sign.html';
+                                }
+                            })
+                            $('#bookFailure').html(bookFailureButton);
+                        }
+                   
+                    
                 }
-                sendToLocalStoreAge(Data);
-                $('#bookSuccess').text("Successfully Booked");
+                else
+                {
+                    $('#failureText').text('Please fill in all the fields correctly.');
+                }
+               
             })
             $('#logout').click(function()
             {
                 localStorage.removeItem('ActiveUser');
-                window.location.href ="index.html";
+                window.location.href ="sign.html";
             })
             function calculatePrice(duration)
             {

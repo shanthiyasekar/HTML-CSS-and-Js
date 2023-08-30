@@ -26,26 +26,51 @@
       </tbody>
     </table>
   </div>
-  
+  <p id="adminMessage"></p>
+  <div id="adminLogin">
+
+  </div>
   <script>
- 
-    function displayUtilization() {
+     
+    const storedAdminData = JSON.parse(localStorage.getItem('adminDetails')) || [];
+    console.log(storedAdminData.password);
+    $('#adminMessage').text("")
+    function displayUtilization()
+    {
   
       const storedParkingData = JSON.parse(localStorage.getItem('Data')) || [];
-  
-      storedParkingData.forEach(function(utilization) {
+      storedParkingData.forEach(function(utilization) 
+      {
         const row = `<tr>
-          <td>${utilization.username}</td>
-          <td>${utilization.vehicleNo}</td>
-          <td>${utilization.duration} hours</td>
-          <td>$${utilization.price}</td>
-          <td>${utilization.timestamp}</td>
-
+        <td>${utilization.username}</td>
+        <td>${utilization.vehicleNo}</td>
+        <td>${utilization.duration} hours</td>
+        <td>$${utilization.price}</td>
+        <td>${utilization.timestamp}</td>
         </tr>`;
         $('#utilizationBody').append(row);
       });
     }
-    displayUtilization();
+    if(storedAdminData.password)
+    {
+      displayUtilization();
+    }
+    else
+    {
+     // alert("admin has not logged in")
+      $('#adminMessage').text("you need to login")
+      let adminloginButton=$('<button>',
+        {
+          text:'Login',
+          click: function()
+          {
+            window.location.href='index.html';
+          }
+        })
+      $('#adminLogin').html(adminloginButton);
+    }
+   
+   
   </script>
   
 </body>

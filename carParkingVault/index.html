@@ -58,8 +58,9 @@
 
     $(document).ready(function()
     {
-        
+      //  localStorage.clear();
         const storedData = JSON.parse(localStorage.getItem('registrationData')) || [];
+        const adminData=JSON.parse(localStorage.getItem("adminDetails"))||[];
         $('#adminLoginForm').submit(function()
         {
             event.preventDefault();
@@ -74,6 +75,13 @@
             }
             else if (username === 'admin' && password === 'password') 
             {
+                const data={
+                    username:"admin",
+                    password:"password"
+                }
+                //adminData.push(data);
+                const adminDataJson=JSON.stringify(data);
+                localStorage.setItem("adminDetails",adminDataJson);
                 window.location.href = 'next_page.html';
             }
             else 
