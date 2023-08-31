@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js" integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <title>Login Page</title>
+</head>
+<body>
+
+<div class="column">
+    <div class="login-container">
+        <h2>User Registration</h2>
+        <form id="userRegisterForm" data-bind="submit: userRegisterForm">
+            <label for="newUsername">Username:</label>
+            <input type="text" id="newUsername" name="newUsername" data-bind="value: newUsername" required><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" data-bind="value: email"required><br> 
+            <p id="emailError" style="color: red" data-bind="text: emailErrorMessage"></p> 
+
+            <label for="newUserPassword">Password:</label>
+            <input type="password" id="newUserPassword" name="newUserPassword" data-bind="value: newUserPassword" required>
+            <p id="pwderror" style="color: red" data-bind="text: passwordErrorMessage"></p>
+
+            <label for="newUserConfirmPassword">Confirm Password:</label>
+            <input type="password" id="newUserConfirmPassword" name="newUserConfirmPassword" data-bind="value: newUserConfirmPassword" required><br>
+            <p id="confirmError" data-bind="text: confirmPasswordErrorMessage"style="color: red"></p>
+
+            <hr>
+            <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+            <input type="submit" class="login-button" id="userRegister" value="Register">
+            <p id="registrationError" data-bind="text: registrationErrorMessage" style="color: red"></p>
+            <p id="success" data-bind="text: registrationSuccess" style="color:darkgreen"></p>
+            <div class="container signin">
+                <p>Already have an account? <a href="sign.html">Sign in</a></p>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="column">
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="adminLoginForm" data-bind="submit: adminLoginForm">
+            <label for="adminUsername">Username:</label>
+            <input type="text" data-bind="value: adminUsername" id="adminUsername" name="adminUsername" required><br>
+            <label for="adminPassword">Password:</label>
+            <input type="password" data-bind="value:adminPassword" id="adminPassword" name="adminPassword" required><br>
+            <p id="invalid" data-bind="text: adminInvalid" style="color:red"></p>
+            <input type="submit" class="login-button" id="adminLogin" value="Login">
+        </form>
+    </div>
+</div>
+<script defer src="js/userRegister.js"></script>
+</body>
+</html>
