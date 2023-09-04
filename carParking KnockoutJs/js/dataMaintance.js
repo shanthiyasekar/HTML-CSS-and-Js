@@ -21,6 +21,7 @@ function removeExpiredData() {
             console.log("true");
             updatedData.push(data);
         }
+        self.sele
     });
 
     // Save the updated data back to local storage
@@ -28,8 +29,6 @@ function removeExpiredData() {
     {
         console.log("true");
         localStorage.setItem('Data', JSON.stringify(updatedData));
-        
-
     }
 }
 

@@ -33,6 +33,10 @@ function appViewModel()
     };
     self.getDetailsForVacancy = getDetailsForVacancy; 
     
+    self.isSlotBooked = function (slot) {
+        return slotVacancy[slot - 1];
+    };
+
     self.userpage=function()
     {
         self.price("");
@@ -82,6 +86,7 @@ function appViewModel()
                     }
                     self.sendToLocalStoreAge(Data);
                     self.bookSuccess("Successfully Booked");
+                    $(`#slot option[value="${self.selectedSlot()}"]`).removeClass('vacant-slot').addClass('occupied-slot');
                     calculated=false;
                 }
                 else
@@ -115,7 +120,7 @@ function appViewModel()
     self.logout=function()
     {
         localStorage.removeItem('ActiveUser');
-        window.location.href ="sign.html";
+        window.location.href ="index.html";
     }
 }
 ko.applyBindings(new appViewModel());

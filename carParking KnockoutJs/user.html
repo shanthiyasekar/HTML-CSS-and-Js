@@ -19,12 +19,12 @@
         <h1>User Page</h1>
         <label for="slot">Select slot:</label>
         <select id="slot" data-bind="value: selectedSlot">
-            <option value="1">Slot 1</option>
-            <option value="2">Slot 2</option>
-            <option value="3">Slot 3</option>
-            <option value="4">Slot 4</option>
-            <option value="5">Slot 5</option>
-            <option value="6">Slot 6</option>
+            <option value="1" data-bind="css: { 'occupied-slot': isSlotBooked(1), 'vacant-slot': !isSlotBooked(1) }">Slot 1</option>
+            <option value="2" data-bind="css: { 'occupied-slot': isSlotBooked(2), 'vacant-slot': !isSlotBooked(2) }">Slot 2</option>
+            <option value="3" data-bind="css: { 'occupied-slot': isSlotBooked(3), 'vacant-slot': !isSlotBooked(3) }">Slot 3</option>
+            <option value="4" data-bind="css: { 'occupied-slot': isSlotBooked(4), 'vacant-slot': !isSlotBooked(4) }">Slot 4</option>
+            <option value="5" data-bind="css: { 'occupied-slot': isSlotBooked(5), 'vacant-slot': !isSlotBooked(5) }">Slot 5</option>
+            <option value="6" data-bind="css: { 'occupied-slot': isSlotBooked(6), 'vacant-slot': !isSlotBooked(6) }">Slot 6</option>
         </select>
 
         <label for="vno">Vehicle Number:</label>
@@ -46,5 +46,6 @@
         <a href="#" id="logout" data-bind="click: logout">LogOut</a>
     </form>
      <script src="js/user.js"></script>
+     <script src="js/dataMaintance.js"></script>
 </body>
 </html>

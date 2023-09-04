@@ -54,3 +54,10 @@ button:hover {
     font-weight: bold;
     /* text-align: center; */
 }
+.vacant-slot {
+    background-color: green;
+}
+.occupied-slot
+{
+    background-color: red;
+}
