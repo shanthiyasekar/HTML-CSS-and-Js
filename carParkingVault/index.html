@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Login Page</title>
+</head>
+<body>
+
+<div class="column">
+    <div class="login-container">
+        <h2>User Registration</h2>
+        <form id="userRegisterForm" >
+            <label for="newUsername">Username:</label>
+            <input type="text" id="newUsername" name="newUsername" required><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br> 
+            <p id="emailError" style="color: red"></p> 
+
+            <label for="newUserPassword">Password:</label>
+            <input type="password" id="newUserPassword" name="newUserPassword" required>
+            <p id="pwderror" style="color: red"></p>
+
+            <label for="newUserConfirmPassword">Confirm Password:</label>
+            <input type="password" id="newUserConfirmPassword" name="newUserConfirmPassword" required><br>
+            <p id="confirmError" style="color: red"></p>
+
+            <hr>
+            <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+            <input type="submit" class="login-button" id="userRegister" value="Register">
+            <p id="registrationError" style="color: red"></p>
+            <p id="success" style="color:darkgreen"></p>
+            <div class="container signin">
+                <p>Already have an account? <a href="sign.html">Sign in</a>.</p>
+            </div>
+
+        </form>
+    </div>
+</div>
+<div class="column">
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="adminLoginForm">
+            <label for="adminUsername">Username:</label>
+            <input type="text" id="adminUsername" name="adminUsername" required><br>
+            <label for="adminPassword">Password:</label>
+            <input type="password" id="adminPassword" name="adminPassword" required><br>
+            <p id="invalid" style="color:red"></p>
+            <input type="submit" class="login-button" id="adminLogin" value="Login">
+        </form>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function()
+    {
+      //  localStorage.clear();
+        const storedData = JSON.parse(localStorage.getItem('registrationData')) || [];
+        const adminData=JSON.parse(localStorage.getItem("adminDetails"))||[];
+        $('#adminLoginForm').submit(function()
+        {
+            event.preventDefault();
+            const username = $('#adminUsername').val();
+            const password = $('#adminPassword').val();
+          
+            // Assuming simple authentication 
+            $('#invalid').text("");
+            if(password===""||username==="")
+            {
+                alert("Fill the admin details");
+            }
+            else if (username === 'admin' && password === 'password') 
+            {
+                const data={
+                    username:"admin",
+                    password:"password"
+                }
+                //adminData.push(data);
+                const adminDataJson=JSON.stringify(data);
+                localStorage.setItem("adminDetails",adminDataJson);
+                window.location.href = 'next_page.html';
+            }
+            else 
+            {
+                $('#invalid').text('Invalid credentials. Please try again.');
+            }
+        });
+
+        $("#userRegisterForm").submit(function(event)   
+        {
+            event.preventDefault();
+            const usernameEl=$('#newUsername').val();
+            const emailEl=$('#email').val();
+            const passwordEl=$('#newUserPassword').val();
+            const confirmPasswordEl=$('#newUserConfirmPassword').val();
+
+            //checking whether the data is present in local storage or not
+            const checkDataInLocal=storedData.some(data=>data.email===emailEl);
+            //console.log(checkDataInLocal);
+            if(checkDataInLocal)
+            {
+              alert("this email id is already registered");
+              return;
+            }
+            //console.log(emailEl);
+            $('#emailError').text("");
+            $('#confirmError').text("");
+            let allfields=true;
+            if(!usernameEl||!emailEl||!passwordEl||!confirmPasswordEl)
+            {
+                    allfields=false;
+            }
+           
+            if ( !allfields) 
+            {
+                $('#registrationError').text('All fields must be filled.');
+                return;
+            } 
+            else
+            {
+                $('#registrationError').text('');
+            }
+            
+            
+            //email validation
+          
+            if (!validateEmail(emailEl)&&emailEl) 
+            {
+                $('#emailError').text('Please enter a valid email address.');  
+              //  console.log("error in email");
+            } 
+            else 
+            { 
+                //console.log("no error in email")
+                //password validation
+                const pass=/^[A-Za-z0-9+!@#$%^&*]{8,15}$/;
+                if(!pass.test(passwordEl)) 
+                {
+                    $('#pwderror').text("Password must be contain 8-15 char with atleast one upper,lowercase and digit.");
+                }
+                else 
+                {
+                    $('#pwderror').text("");
+                    if(usernameEl&&passwordEl&&confirmPasswordEl&&emailEl)
+                    {
+                        if(passwordEl===confirmPasswordEl)
+                        {
+                            const registrationData=
+                            {
+                                username:usernameEl,
+                                password:passwordEl,
+                                email:emailEl,  
+                                confirmPassword:confirmPasswordEl
+                            }
+                            if(!checkDataInLocal)
+                            {
+                                storedData.push(registrationData); 
+                                const registrationDataJson=JSON.stringify(storedData);
+                                localStorage.setItem('registrationData',registrationDataJson);
+                            }
+                           
+                            $('#emailError').text('');
+                            $('#success').text("Registered Successfully,you can sign in");
+                        }
+                        else
+                        {
+                            $('#confirmError').text("password must be matched");
+                        }
+                    }
+                }
+                
+            }
+            function validateEmail(email) 
+            {
+              const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+              return emailRegex.test(email);
+            }  
+        });
+        
+    });
+</script>
+
+
+</body>
+</html>

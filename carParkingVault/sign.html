@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <title>signin</title>
+</head>
+<body>
+    <div class="column">
+        <div class="login-container">
+            <h2>User Login</h2>
+            <form id="userLoginForm">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email"><br>
+                <label for="userPassword">Password:</label>
+                <input type="password" id="userPassword" name="userPassword" required><br>
+                <p id="usererror" style="color:red"></p>
+                <div id="notRegistered">
+
+                </div>
+                <input type="submit" class="login-button" id="userLogin" value="Login">
+            </form>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() 
+        {   
+            
+            const registrationDataJson=localStorage.getItem("registrationData");
+            const activeData=JSON.parse(localStorage.getItem("ActiveUser"))||[];
+            // console.log(localStorage.getItem("registrationData"));
+            // console.log(registrationDataJson)
+            $('#userLoginForm').submit(function(event)
+            {
+                event.preventDefault();
+                const usernameEl=$('#username').val();
+                const emailEl=$('#email').val();
+                const passwordEl=$('#userPassword').val();
+            
+                if(usernameEl&&emailEl&&passwordEl)
+                {
+                    if(registrationDataJson)
+                    {
+                        
+                        const registrationData=JSON.parse(registrationDataJson);
+
+                        const found=registrationData.some(data=>usernameEl===data.username&&emailEl===data.email&&passwordEl===data.password)
+                        
+                       
+                        //console.log(retrievedData.length)
+                        if(found)
+                        {
+                            
+                            const signinData={
+                                username:usernameEl,
+                                email:emailEl,
+                                password:passwordEl
+                            }
+                           //console.log(found);
+                            activeData.push(signinData);
+                            const activeDataJson=JSON.stringify(activeData);
+                            localStorage.setItem("ActiveUser",activeDataJson);
+                            window.location.href = 'user.html';
+                        }
+                        else
+                        {
+                            //console.log(found);
+                            $('#usererror').text("wrong details or user have not registered yet");
+                            let registerButton=$('<button>',{
+                                text:'Register',
+                                click: function(){
+                                    window.location.href='index.html';
+                                }
+                            })
+                            $('#notRegistered').html(registerButton);
+                        }
+                           
+                       /* for(const data in registrationData)
+                        {
+                            //  console.log(data);
+                            if(usernameEl===registrationData[data].username&&emailEl===registrationData[data].email&&passwordEl===registrationData[data].password)
+                            {
+                                found=true;
+                                window.location.href = 'user.html';
+                                break;
+                            }
+                        }*/
+                       
+                     
+                    }
+                }
+                else
+                {
+                    alert("all details must be filled");
+                }   
+                    
+            });
+        });
+    </script>
+</body>
+</html>
