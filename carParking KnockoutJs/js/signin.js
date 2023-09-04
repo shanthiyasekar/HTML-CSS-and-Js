@@ -1,5 +1,7 @@
 function appViewModel()
 {
+    //localStorage.clear();
+
     let self=this;
     self.username=ko.observable("");
     self.email=ko.observable("");
@@ -10,6 +12,7 @@ function appViewModel()
     const registrationDataJson=localStorage.getItem("registrationData");
     const activeData=JSON.parse(localStorage.getItem("ActiveUser"))||[];
 
+   
 
     self.userLoginForm=function()
     {

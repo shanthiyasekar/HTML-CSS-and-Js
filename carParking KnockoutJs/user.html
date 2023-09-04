@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="userstyle.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.1/knockout-latest.js" integrity="sha512-2AL/VEauKkZqQU9BHgnv48OhXcJPx9vdzxN1JrKDVc4FPU/MEE/BZ6d9l0mP7VmvLsjtYwqiYQpDskK9dG8KBA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <title>userpage</title>
 </head>
@@ -15,18 +16,18 @@
     
     <form action="" id="userpage" data-bind="submit: userpage">
 
-        <!--here i have created the user page which asks for slot,vehicle number,duration,and will calculate the price upon clicking the calculate button and displays the price-->
+     
         <h1>User Page</h1>
         <label for="slot">Select slot:</label>
-        <select id="slot" data-bind="value: selectedSlot">
-            <option value="1">Slot 1</option>
-            <option value="2">Slot 2</option>
-            <option value="3">Slot 3</option>
-            <option value="4">Slot 4</option>
-            <option value="5">Slot 5</option>
-            <option value="6">Slot 6</option>
+          <select id="slot" data-bind="value: selectedSlot">
+            <option value="1" data-bind="css: { 'occupied-slot': isSlotBooked(1), 'vacant-slot': !isSlotBooked(1) }">Slot 1</option>
+            <option value="2" data-bind="css: { 'occupied-slot': isSlotBooked(2), 'vacant-slot': !isSlotBooked(2) }">Slot 2</option>
+            <option value="3" data-bind="css: { 'occupied-slot': isSlotBooked(3), 'vacant-slot': !isSlotBooked(3) }">Slot 3</option>
+            <option value="4" data-bind="css: { 'occupied-slot': isSlotBooked(4), 'vacant-slot': !isSlotBooked(4) }">Slot 4</option>
+            <option value="5" data-bind="css: { 'occupied-slot': isSlotBooked(5), 'vacant-slot': !isSlotBooked(5) }">Slot 5</option>
+            <option value="6" data-bind="css: { 'occupied-slot': isSlotBooked(6), 'vacant-slot': !isSlotBooked(6) }">Slot 6</option>
         </select>
-
+       
         <label for="vno">Vehicle Number:</label>
         <input type="text" data-bind="value: vehicleNo" placeholder="Enter the vehicle number" id="vno" name="vno">
 
@@ -46,143 +47,8 @@
         <a href="#" id="logout" data-bind="click: logout">LogOut</a>
     </form>
     
-<!-- 
-    <script>
-        $(document).ready(function()
-        {   
-          
-            //here i am retreving all the datas stored in local to continue with previous tasks 
-            
-            const storedData = JSON.parse(localStorage.getItem('Data')) || [];
-            const ActiveUserData=JSON.parse(localStorage.getItem('ActiveUser'))||[];
-            //console.log(registrationData);
-
-            //to check whether any slots are filled previously ,during loading the page it helps us alot
-            const slotVacancy=getDetailsForVacancy(storedData);
-            let calculated=false;
-           
-            $('#userpage').submit(function(event)
-            {
-                event.preventDefault();
-                const slotEl=parseInt($('#slot').val());
-                const vehicleEl=$('#vno').val();
-                const durationEl=parseFloat($('#duration').val());
-                const currentTimeStamp = new Date();
-                const timestamp= currentTimeStamp.toString();
-                //console.log(slotEl);
-                //console.log(vehicleEl);
-                //console.log(durationEl);
-              
-                //checking whether the slot given is b/w 1 to 6 and duration >0
-                if(slotEl&&!isNaN(slotEl)&&slotEl>=1&&slotEl<=6&&vehicleEl&&durationEl>0)
-                {
-                    //if any slot is filled it shows not vacent
-                    if(!slotVacancy[slotEl-1])
-                    {
-                        const price=calculatePrice(durationEl);
-                        calculated=true;
-                       // console.log(price);
-                        $('#price').text(`Price for Slot ${slotEl}: $${price}`);
-                        slotVacancy[slotEl-1]=true;
-                    }
-                    else
-                    {
-                        $('#price').text("the chosen Slot is filled");
-                    }
-                }
-                else
-                {
-                    $('#price').text('Please fill in all the fields correctly.');
-                }
-            });
-            //after clicking booknow it goes to local storage
-            $('#booknow').click(function()
-            {
-                event.preventDefault();
-                if(!calculated)
-                {
-                    alert("Please calculate the price before booking");
-                    return;
-                }
-                const len=ActiveUserData.length;
-                const slotEl=parseInt($('#slot').val());
-                const vehicleEl=$('#vno').val();
-                const durationEl=parseFloat($('#duration').val());
-                const currentTimeStamp = new Date();
-                const timestamp= currentTimeStamp.toString();
-                //here we are sending all the data that we got from user to local storage for future uses
-                $('#failureText').text("");
-                if(slotEl&&!isNaN(slotEl)&&slotEl>=1&&slotEl<=6&&vehicleEl&&durationEl>0)
-                {
-                    //if any slot is filled it shows not vacent
-                   
-                        if(len>0)
-                        {
-                            const price=calculatePrice(durationEl);
-                            const Data={
-                                slot:slotEl,
-                                vehicleNo:vehicleEl,
-                                duration:durationEl,
-                                price:price,
-                                timestamp:timestamp,
-                                username:ActiveUserData[len-1].username
-                            }
-                            sendToLocalStoreAge(Data);
-                            $('#bookSuccess').text("Successfully Booked");
-                            calculated=false;
-                        }
-                        else
-                        {
-                            $('#failureText').text("No activeUser,signin");
-                            let bookFailureButton=$('<button>',{
-                                text:'Login',
-                                click: function(){
-                                    window.location.href='sign.html';
-                           self.showRegisterButton(true);     }
-                            })
-                            $('#bookFailure').html(bookFailureButton);
-                        }
-                   
-                    
-                }
-                else
-                {
-                    $('#failureText').text('Please fill in all the fields correctly.');
-                }
-               
-            })
-            $('#logout').click(function()
-            {
-                localStorage.removeItem('ActiveUser');
-                window.location.href ="sign.html";
-            })
-            function calculatePrice(duration)
-            {
-                const ratePerHour=10;
-                return ratePerHour*duration;
-            }
-            function sendToLocalStoreAge(Data)
-            {
-             //   const storedData = JSON.parse(localStorage.getItem('Data')) || [];
-                storedData.push(Data);
-                localStorage.setItem('Data', JSON.stringify(storedData));
-            }
-            function getDetailsForVacancy(storedData)
-            {
-                const vacancy=[false,false,false,false,false,false];
-                storedData.forEach(data=>
-                {
-                    if(data.slot>=1&&data.slot<=6)
-                    {
-                        vacancy[data.slot-1]=true;
-                    }
-                });
-                return vacancy;
-            }
-        });
-
-        
-    </script> -->
     <script src="js/user.js"></script>
+    <script src="js/dataMaintance.js"></script>
+
 </body>
 </html>

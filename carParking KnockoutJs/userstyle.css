@@ -54,3 +54,18 @@ button:hover {
     font-weight: bold;
     /* text-align: center; */
 }
+.booked-slot {
+    color: red; 
+}
+
+.free-slot {
+    color: green; 
+}
+
+.vacant-slot {
+    background-color: green;
+}
+
+.occupied-slot {
+    background-color: red;
+}

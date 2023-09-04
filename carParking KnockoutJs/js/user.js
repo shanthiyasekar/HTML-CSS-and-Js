@@ -1,5 +1,6 @@
 function appViewModel()
 {
+    const storedData = JSON.parse(localStorage.getItem('Data')) || [];
     let self=this;
     self.vehicleNo=ko.observable("");
     self.duration=ko.observable("");
@@ -14,10 +15,13 @@ function appViewModel()
     self.showLogin = ko.observable(false);
     self.failureText=ko.observable("");
 
-    const storedData = JSON.parse(localStorage.getItem('Data')) || [];
-    const ActiveUserData=JSON.parse(localStorage.getItem('ActiveUser'))||[];
+    
+  
     const slotVacancy=getDetailsForVacancy(storedData);
+    const ActiveUserData=JSON.parse(localStorage.getItem('ActiveUser'))||[];
+    
     let calculated=false;
+
     function getDetailsForVacancy(storedData)
     {
         const vacancy=[false,false,false,false,false,false];
@@ -31,6 +35,8 @@ function appViewModel()
         return vacancy;
     };
     self.getDetailsForVacancy = getDetailsForVacancy; 
+
+    
     self.userpage=function()
     {
         self.price("");
@@ -53,7 +59,9 @@ function appViewModel()
             self.price('Please fill in all the fields correctly.');
         }
     };
-
+    self.isSlotBooked = function (slot) {
+        return slotVacancy[slot - 1];
+    };
     self.bookNow=function()
     {   
         self.bookSuccess("");
@@ -80,6 +88,7 @@ function appViewModel()
                     }
                     self.sendToLocalStoreAge(Data);
                     self.bookSuccess("Successfully Booked");
+                    $(`#slot option[value="${self.selectedSlot()}"]`).removeClass('vacant-slot').addClass('occupied-slot');
                     calculated=false;
                 }
                 else
@@ -87,8 +96,6 @@ function appViewModel()
                     self.failureText("No activeUser,signin");
                     self.showLogin(true);
                 }
-           
-            
         }
         else
         {
@@ -102,7 +109,7 @@ function appViewModel()
     };
     self.sendToLocalStoreAge=function(Data)
     {
-     //   const storedData = JSON.parse(localStorage.getItem('Data')) || [];
+    //    const storedData = JSON.parse(localStorage.getItem('Data')) || [];
         storedData.push(Data);
         localStorage.setItem('Data', JSON.stringify(storedData));
     };
@@ -113,7 +120,8 @@ function appViewModel()
     self.logout=function()
     {
         localStorage.removeItem('ActiveUser');
-        window.location.href ="sign.html";
+        window.location.href ="index.html";
     }
 }
 ko.applyBindings(new appViewModel());
+

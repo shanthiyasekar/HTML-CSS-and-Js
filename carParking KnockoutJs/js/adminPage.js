@@ -1,23 +1,29 @@
 function appViewModel()
 {
-       
+   // localStorage.clear();
+
+    let self = this;
+    self.utilizationData = ko.observableArray([]);
+    self.showLoginButton = ko.observable(false);
+    self.adminMessage=ko.observable("");
     const storedAdminData = JSON.parse(localStorage.getItem('adminDetails')) || [];
+    self.adminMessage("");
     self.displayUtilization=function()
     {
         const storedParkingData = JSON.parse(localStorage.getItem('Data')) || [];
-        storedParkingData.forEach(function(utilization) 
-        {
-          const row = `<tr>
-          <td>${utilization.username}</td>
-          <td>${utilization.vehicleNo}</td>
-          <td>${utilization.duration} hours</td>
-          <td>$${utilization.price}</td>
-          <td>${utilization.timestamp}</td>
-          </tr>`;
-          $('#utilizationBody').append(row);
+        self.utilizationData(storedParkingData);
     }
     if(storedAdminData.password)
     {
         self.displayUtilization();
     }
+    else
+    {
+        self.adminMessage("you need to login")
+        self.showLoginButton(true);
+    }
+    self.LoginRedirect = function () {
+        window.location.href = 'index.html';
+    };
 }
+ko.applyBindings(new appViewModel());
