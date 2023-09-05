@@ -1,3 +1,4 @@
+
 function appViewModel()
 {
     let self=this;
@@ -16,23 +17,31 @@ function appViewModel()
 
     const storedData = JSON.parse(localStorage.getItem('Data')) || [];
     const ActiveUserData=JSON.parse(localStorage.getItem('ActiveUser'))||[];
-    const slotVacancy=getDetailsForVacancy(storedData);
+    const slotVacancy=JSON.parse(localStorage.getItem('VacancyDetails'));
+
+   // const slotVacancy=getDetailsForVacancy(storedData);
     let calculated=false;
+
+    
+
+    console.log("before checking",slotVacancy);
 
     function getDetailsForVacancy(storedData)
     {
-        const vacancy=[false,false,false,false,false,false];
+       // const vacancy=[false,false,false,false,false,false];
         storedData.forEach(data=>
         {
             if(data.slot>=1&&data.slot<=6)
             {
-                vacancy[data.slot-1]=true;
+                slotVacancy[data.slot-1]=true;
             }
         });
-        return vacancy;
     };
-    self.getDetailsForVacancy = getDetailsForVacancy; 
     
+    self.getDetailsForVacancy = getDetailsForVacancy; 
+
+    console.log("After checking",slotVacancy);
+
     self.isSlotBooked = function (slot) {
         return slotVacancy[slot - 1];
     };
@@ -47,7 +56,9 @@ function appViewModel()
                 const rate=self.calculatePrice(self.duration());
                 calculated=true;    
                 self.price(`Price for Slot ${self.selectedSlot()}: $${rate}`);
-                slotVacancy[self.selectedSlot-1]=true;
+                slotVacancy[self.selectedSlot()-1]=true;
+                localStorage.setItem("VacancyDetails",JSON.stringify(slotVacancy));
+                console.log("after calculating price",slotVacancy);
             }
             else
             {
@@ -75,19 +86,22 @@ function appViewModel()
            
                 if(len>0)
                 {
-                    const price=self.calculatePrice(self.duration());
-                    const Data={
-                        slot:self.selectedSlot(),
-                        vehicleNo:self.vehicleNo(),
-                        duration:self.duration(),
-                        price:price,
-                        timestamp:self.timestamp(),
-                        username:ActiveUserData[len-1].username
-                    }
-                    self.sendToLocalStoreAge(Data);
-                    self.bookSuccess("Successfully Booked");
-                    $(`#slot option[value="${self.selectedSlot()}"]`).removeClass('vacant-slot').addClass('occupied-slot');
-                    calculated=false;
+                    
+                        const price=self.calculatePrice(self.duration());
+                        const Data={
+                            slot:self.selectedSlot(),
+                            vehicleNo:self.vehicleNo(),
+                            duration:self.duration(),
+                            price:price,
+                            timestamp:self.timestamp(),
+                            username:ActiveUserData[len-1].username
+                        }
+                        self.sendToLocalStoreAge(Data);
+                        self.bookSuccess("Successfully Booked");
+                        $(`#slot option[value="${self.selectedSlot()}"]`).removeClass('vacant-slot').addClass('occupied-slot');
+                        calculated=false;
+                    
+                    
                 }
                 else
                 {
