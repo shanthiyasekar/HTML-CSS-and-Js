@@ -1,7 +1,7 @@
 function appViewModel()
 {
     let self=this;
-   // localStorage.clear();
+    //localStorage.clear();
     //RegistrationPage details
     self.newUsername=ko.observable("");
     self.email=ko.observable("");
@@ -28,7 +28,7 @@ function appViewModel()
         self.passwordErrorMessage("");
         self.registrationErrorMessage("");
         self.confirmPasswordErrorMessage("");
-        let noError=true;
+     
         if(!self.newUsername()||!self.email()||!self.newUserPassword()||!self.newUserConfirmPassword())
         {
             self.registrationErrorMessage('All fields must be filled.');
@@ -51,7 +51,7 @@ function appViewModel()
             self.confirmPasswordErrorMessage("password should be same");
             return false;
         }
-        
+       
         return true;
     };
     self.userRegisterForm=function()

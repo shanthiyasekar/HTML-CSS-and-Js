@@ -1,9 +1,10 @@
 
 
 function removeExpiredData() {
+    
     const storedData = JSON.parse(localStorage.getItem('Data')) || [];
     const currentTime = new Date().getTime(); // Get current time in milliseconds
-    console.log(currentTime);
+   // console.log(currentTime);
     self.selectedSlot=ko.observable("");
     
     const updatedData = [];
@@ -13,15 +14,15 @@ function removeExpiredData() {
     storedData.forEach(data => {
         const bookingTime = new Date(data.timestamp).getTime();
         const bookingTimeout = data.duration*60*1000; 
-        console.log(data.vehicleNo);
+        /*console.log(data.vehicleNo);
         console.log("bookingTime",bookingTime);
         console.log("currentTime",currentTime);
         console.log("difference",currentTime-bookingTime);
-        console.log("user mentioned Duration",bookingTimeout);
+        console.log("user mentioned Duration",bookingTimeout);*/
         
         if (currentTime - bookingTime < bookingTimeout) {
             // Data is within the allowed duration, keep it
-            console.log("true");
+          //  console.log("true");
             updatedData.push(data);
         }
         else

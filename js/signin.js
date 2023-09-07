@@ -1,5 +1,6 @@
 function appViewModel()
 {
+    
     let self=this;
     self.username=ko.observable("");
     self.email=ko.observable("");
@@ -38,6 +39,11 @@ function appViewModel()
                 self.showRegisterButton(true);
             }
             
+        }
+        else
+        {
+            self.userLoginError("not yet registered");
+            self.showRegisterButton(true);
         }
     };
     self.registerRedirect = function () {
