@@ -1,7 +1,8 @@
+import { localStorageGetItems, localStorageSetItems } from "./common.js";
 
 function appViewModel()
 {
-   
+    //console.log("hi shanthiya")
     let self=this;
     self.vehicleNo=ko.observable("");
     self.duration=ko.observable("");
@@ -16,22 +17,25 @@ function appViewModel()
     self.showLogin = ko.observable(false);
     self.failureText=ko.observable("");
 
-    const storedData = JSON.parse(localStorage.getItem('Data')) || [];
+    const storedData=localStorageGetItems('Data');
+    const ActiveUserData=localStorageGetItems('ActiveUser');
+    let slotVacancy=localStorageGetItems('VacancyDetails');
+    //let slotVacancy=JSON.parse(localStorage.getItem('VacancyDetails'))||[];
+  
+    /*const storedData = JSON.parse(localStorage.getItem('Data')) || [];
     const ActiveUserData=JSON.parse(localStorage.getItem('ActiveUser'))||[];
     let slotVacancy=JSON.parse(localStorage.getItem('VacancyDetails'))||[];
-
     console.log(slotVacancy);
-   // const slotVacancy=getDetailsForVacancy(storedData);
+    const slotVacancy=getDetailsForVacancy(storedData);*/
+
     if(slotVacancy.length==0)
     {
         slotVacancy=getDetailsForVacancy(storedData);
     }
     let calculated=false;
 
-    console.log(slotVacancy);
-    
-
-    console.log("before checking",slotVacancy);
+    //console.log(slotVacancy);
+    //console.log("before checking",slotVacancy);
 
     function getDetailsForVacancy(storedData)
     {
@@ -46,10 +50,11 @@ function appViewModel()
         return slotVacancy
     };
     
-    localStorage.setItem("VacancyDetails",JSON.stringify(slotVacancy));
+    localStorageSetItems(slotVacancy,"VacancyDetails");
+    
+    //localStorage.setItem("VacancyDetails",JSON.stringify(slotVacancy));
     //self.getDetailsForVacancy = getDetailsForVacancy; 
-
-    console.log("After checking",slotVacancy);
+    //console.log("After checking",slotVacancy);
 
     self.isSlotBooked = function (slot) {
         return slotVacancy[slot - 1];
@@ -68,7 +73,8 @@ function appViewModel()
                 calculated=true;    
                 self.price(`Price for Slot ${self.selectedSlot()}: $${rate}`);
                 slotVacancy[self.selectedSlot()-1]=true;
-                localStorage.setItem("VacancyDetails",JSON.stringify(slotVacancy));
+                localStorageSetItems(slotVacancy,"VacancyDetails");
+               // localStorage.setItem("VacancyDetails",JSON.stringify(slotVacancy));
                 console.log("after calculating price",slotVacancy);
             }
             else
@@ -107,8 +113,9 @@ function appViewModel()
                             timestamp:self.timestamp(),
                             username:ActiveUserData[len-1].username
                         }
-                       // storedData.push(Data);
-                        self.sendToLocalStoreAge(Data);
+                       storedData.push(Data);
+                       localStorageSetItems(storedData,"Data");
+                       // self.sendToLocalStoreAge(Data);
                         self.bookSuccess("Successfully Booked");
                         $(`#slot option[value="${self.selectedSlot()}"]`).removeClass('vacant-slot').addClass('occupied-slot');
                         calculated=false;
@@ -133,12 +140,12 @@ function appViewModel()
         const ratePerHour=10;
         return ratePerHour*duration;
     };
-    self.sendToLocalStoreAge=function(Data)
+   /* self.sendToLocalStoreAge=function(Data)
     {
      //   const storedData = JSON.parse(localStorage.getItem('Data')) || [];
         storedData.push(Data);
         localStorage.setItem('Data', JSON.stringify(storedData));
-    };
+    };*/
     
     self.loginRedirect = function () {
         window.location.href = 'sign.html';

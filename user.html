@@ -15,7 +15,6 @@
     
     <form action="" id="userpage" data-bind="submit: userpage">
 
-        
         <h1>User Page</h1>
         <label for="slot">Select slot:</label>
         <select id="slot" data-bind="value: selectedSlot">
@@ -45,8 +44,9 @@
         <p id="bookSuccess" data-bind="text: bookSuccess"></p>
         <a href="#" id="logout" data-bind="click: logout">LogOut</a>
     </form>
-     <script src="js/user.js"></script>
-      <script src="js/dataMaintance.js"></script> 
+    <script type="module" src="js/user.js"></script>
+    <script type="module" src="js/dataMaintance.js"></script> 
+    <script type="module" src="js/common.js"></script>
 </body>
 </html>
 

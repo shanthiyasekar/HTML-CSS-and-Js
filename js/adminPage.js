@@ -1,3 +1,4 @@
+import { localStorageGetItems } from "./common.js";
 
 function appViewModel()
 {
@@ -6,11 +7,13 @@ function appViewModel()
     self.adminMessage=ko.observable("");
     self.utilizationData = ko.observableArray([]);
     self.showLoginButton = ko.observable(false);
-    const storedAdminData = JSON.parse(localStorage.getItem('adminDetails')) || [];
+    const storedAdminData=localStorageGetItems('adminDetails');
+    //const storedAdminData = JSON.parse(localStorage.getItem('adminDetails')) || [];
     self.displayUtilization=function()
     {
-        const storedParkingData = JSON.parse(localStorage.getItem('Data')) || [];
-        console.log(storedParkingData);
+        const storedParkingData=localStorageGetItems('Data');
+        /*const storedParkingData = JSON.parse(localStorage.getItem('Data')) || [];
+        console.log(storedParkingData);*/
         self.utilizationData(storedParkingData);
     };
     if(storedAdminData.password)

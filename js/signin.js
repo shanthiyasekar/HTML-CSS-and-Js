@@ -1,3 +1,4 @@
+import { localStorageGetItems, localStorageSetItems } from "./common.js";
 function appViewModel()
 {
     
@@ -8,9 +9,11 @@ function appViewModel()
     self.userLoginError=ko.observable("");
     self.showRegisterButton = ko.observable(false);
 
+   
+    
     const registrationDataJson=localStorage.getItem("registrationData");
-    const activeData=JSON.parse(localStorage.getItem("ActiveUser"))||[];
-
+    //const activeData=JSON.parse(localStorage.getItem("ActiveUser"))||[];
+    const activeData=localStorageGetItems("ActiveUser");
 
     self.userLoginForm=function()
     {
@@ -29,8 +32,9 @@ function appViewModel()
                     password:self.userPassword()
                 }
                 activeData.push(signinData);
-                const activeDataJson=JSON.stringify(activeData);
-                localStorage.setItem("ActiveUser",activeDataJson);
+                localStorageSetItems(activeData,"ActiveUser");
+               /* const activeDataJson=JSON.stringify(activeData);
+                localStorage.setItem("ActiveUser",activeDataJson);*/
                 window.location.href = 'user.html';
             }
             else
@@ -51,5 +55,5 @@ function appViewModel()
     };
 }
 
-    ko.applyBindings(new appViewModel());
+ko.applyBindings(new appViewModel());
 

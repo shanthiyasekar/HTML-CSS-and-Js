@@ -1,3 +1,4 @@
+import { localStorageGetItems, localStorageSetItems} from "./common.js";
 function appViewModel()
 {
     let self=this;
@@ -19,16 +20,20 @@ function appViewModel()
      self.adminInvalid=ko.observable("");
      
     //Registration Page Functionality
+    self.setEmpty=function()
+    {
+        self.emailErrorMessage("");
+        self.passwordErrorMessage("");
+        self.registrationErrorMessage("");
+        self.confirmPasswordErrorMessage("");
+    }
     self.validateForm=function()
     {
         const emailId= /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const Password= /^[A-Za-z0-9+]{8,15}$/;
 
-        self.emailErrorMessage("");
-        self.passwordErrorMessage("");
-        self.registrationErrorMessage("");
-        self.confirmPasswordErrorMessage("");
-     
+        self.setEmpty();
+
         if(!self.newUsername()||!self.email()||!self.newUserPassword()||!self.newUserConfirmPassword())
         {
             self.registrationErrorMessage('All fields must be filled.');
@@ -43,7 +48,7 @@ function appViewModel()
         if(!Password.test(self.newUserPassword()))
         {
             self.passwordErrorMessage("Password must be contain 8-15 char with atleast one upper,lowercase and digit.");
-           
+            console.log(self.newUserPassword());
             return false;
         }
         if(self.newUserPassword()!=self.newUserConfirmPassword())
@@ -54,17 +59,15 @@ function appViewModel()
        
         return true;
     };
+   
     self.userRegisterForm=function()
     {
-      
-        const storedData = JSON.parse(localStorage.getItem('registrationData')) || [];
+        const storedData=localStorageGetItems("registrationData");
+       // const storedData = JSON.parse(localStorage.getItem('registrationData')) || [];
         const checkDataInLocal=storedData.some(data=>data.email===self.email());
         if(self.validateForm())
         {
-            self.emailErrorMessage("");
-            self.passwordErrorMessage("");
-            self.registrationErrorMessage("");
-            self.confirmPasswordErrorMessage("");
+            self.setEmpty();
             
             if(checkDataInLocal)
             {
@@ -79,8 +82,10 @@ function appViewModel()
                 confirmPassword:self.newUserConfirmPassword()
             }
             storedData.push(registrationData);
-            const registrationDataJson=JSON.stringify(storedData);
-            localStorage.setItem("registrationData",registrationDataJson);
+            localStorageSetItems(storedData,"registrationData")
+            
+            /*const registrationDataJson=JSON.stringify(storedData);
+            localStorage.setItem("registrationData",registrationDataJson);*/
             self.registrationSuccess("Registered Successfully,you can sign in");
         }
     };
@@ -88,8 +93,8 @@ function appViewModel()
    
     self.adminLoginForm=function()
     {
-       
-        const adminData=JSON.parse(localStorage.getItem("adminDetails"))||[];
+        const adminData=localStorageGetItems("adminDetails");
+        //const adminData=JSON.parse(localStorage.getItem("adminDetails"))||[];
         self.adminInvalid('');
         if(self.adminUsername()=="admin"&&self.adminPassword()=="password")
         {
@@ -98,9 +103,9 @@ function appViewModel()
                 username:"admin",
                 password:"password"
             }
-           
-            const adminDataJson=JSON.stringify(data);
-            localStorage.setItem("adminDetails",adminDataJson);
+            localStorageSetItems(data,"adminDetails");
+            /*const adminDataJson=JSON.stringify(data);
+            localStorage.setItem("adminDetails",adminDataJson);*/
             window.location.href = 'next_page.html';
         }
         else

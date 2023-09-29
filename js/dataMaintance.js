@@ -1,15 +1,18 @@
+import { localStorageGetItems, localStorageSetItems } from "./common.js";
 
 
 function removeExpiredData() {
     
-    const storedData = JSON.parse(localStorage.getItem('Data')) || [];
+    const storedData=localStorageGetItems("Data");
+    //const storedData = JSON.parse(localStorage.getItem('Data')) || [];
     const currentTime = new Date().getTime(); // Get current time in milliseconds
    // console.log(currentTime);
     self.selectedSlot=ko.observable("");
     
     const updatedData = [];
 
-    const slotVacancy=JSON.parse(localStorage.getItem('VacancyDetails'));
+    const slotVacancy=localStorageGetItems("VacancyDetails");
+    //const slotVacancy=JSON.parse(localStorage.getItem('VacancyDetails'));
     console.log("before checking duration",slotVacancy);
     storedData.forEach(data => {
         const bookingTime = new Date(data.timestamp).getTime();
@@ -37,9 +40,11 @@ function removeExpiredData() {
 
     // Save the updated data back to local storage
     
-    localStorage.setItem('Data', JSON.stringify(updatedData));
+    localStorageSetItems(updatedData,"Data");
+    localStorageSetItems(slotVacancy,"VacancyDetails");
+    /*localStorage.setItem('Data', JSON.stringify(updatedData));
     localStorage.setItem("VacancyDetails",JSON.stringify(slotVacancy));
-    
+    */
         
 }
 
