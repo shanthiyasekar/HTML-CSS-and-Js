@@ -12,7 +12,7 @@ include ("functions/common_function.php");
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- font awesome link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="     style.css">
     <style>
         .btn-outline-success {
             color: #fff; /* Set the text color to white */
@@ -35,19 +35,14 @@ include ("functions/common_function.php");
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                   <li class="nav-item">
-                      <a class="nav-link active" href="#">Home</a>
+                      <a class="nav-link active" href="index.php">Home</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="#">Products</a>
+                      <a class="nav-link" href="display_all.php">Products</a>
                   </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Register</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Contact</a>
-                  </li>
+                 
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa-solid fa-cart-shopping"></i><sup><?php
+                    <a class="nav-link" href="cart.php"><i class="fa-solid fa-cart-shopping"></i><sup><?php
                     cart_item_number();?></sup></a>
                 </li>
                 <li class="nav-item">
@@ -62,19 +57,7 @@ include ("functions/common_function.php");
               </form>
             </div>
       </nav>
-        <!-- second child -->
-      <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="#">Welcome Guest</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Login</a>
-              </li>
-            </ul>
-          </div>
-      </nav>
+     
 
       <!-- third child -->
       <div class="bg-light">

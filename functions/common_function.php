@@ -211,14 +211,12 @@ function search_products(){
             echo "
             <div class='col-md-4 single-pro-details' style='white-space: normal;'>
                 <h2> $product_title</h2>
+                <img class='card-img-top' src='./admin_area/product_images/$product_image1' alt='Card image cap'>
                 <p>$product_desc</p>
                 <h4>Rupees: $product_price/-</h4>
                 <form action='index.php?add_to_cart=$product_id' method='post'>
-                    <div class='form-group'>
-                        <label for='quantity'>Quantity:</label>
-                        <input type='number' id='quantity' name='quantity' value='1' min='1'>
-                    </div>
                     <button type='submit' class='btn btn-info' name='add_to_cart'>Add to cart</button>
+                    <a href='description_page.php?product=$product_id' class='btn btn-secondary'>View More</a>
                 </form>
             </div>
             ";
@@ -275,12 +273,7 @@ function view_details(){
                     <h2> $product_title</h2>
                     <p>$product_desc</p>
                     <h4>Rupees: $product_price/-</h4>
-                    <div class='form-group'>
-                        <label for='quantity'>Quantity:</label>
-                        <input type='number' id='quantity' name='quantity' value='1' min='1'>
-                    </div>
                     <a href='index.php?add_to_cart=$product_id' class='btn btn-info' name='item-name'>Add to cart</a>
-                    
                 </div>
             </div>
             

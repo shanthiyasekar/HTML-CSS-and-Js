@@ -39,12 +39,7 @@ include ("functions/common_function.php");
                   <li class="nav-item">
                       <a class="nav-link" href="display_all.php">Products</a>
                   </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Register</a>
-                  </li>
-                  <li class="nav-item">
-                      <a class="nav-link" href="#">Contact</a>
-                  </li>
+                 
                 <li class="nav-item">
                     <a class="nav-link" href="cart.php"><i class="fa-solid fa-cart-shopping"></i><sup><?php
                     cart_item_number();?></sup></a>
@@ -89,7 +84,7 @@ include ("functions/common_function.php");
                         <th>Product Id</th>
                         <th>Product Title</th>
                         <th>Product Image</th>
-                        <th>Quantity</th>
+                        <!-- <th>Quantity</th> -->
                         <th>Total Price</th>
                        
                     </tr>
@@ -120,7 +115,7 @@ include ("functions/common_function.php");
                     <td><?php echo $product_id ?></td>
                     <td><?php echo$product_title?></td>
                     <td><img src="./images/<?php echo $product_image1?>" class="cart_img"></td>
-                    <td><input type="text" name="quantity" id=""></td>
+                    <!-- <td><input type="text" name="quantity" id=""></td> -->
                     <?php 
                         $ip = getIPAddress(); 
                         if(isset($_POST['update_cart'])){
@@ -139,8 +134,11 @@ include ("functions/common_function.php");
             </table>
              <div class="d-flex mb-5">
                 <h4 class="px-3 ">SubTotal:<strong class="text-info"><?php echo $total?></strong></h4>
-                <input type="submit" class="bg-info px-3 border-0 mb-3 mr-2" name="update_cart"value="update">
-                <a href="/ecommerce/index.php"><button class="bg-info px-3 border-0 mb-3">Continue Shopping</button></a>
+                <!-- <input type="submit" class="bg-info px-3 border-0 mb-3 mr-2" name="update_cart"value="update"> -->
+                <!-- <a href="index.php">
+  <button class="bg-info px-3 border-0 mb-3">Continue Shopping</button>
+</a> -->
+
             </div> 
             
         </div>
