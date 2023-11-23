@@ -45,7 +45,7 @@ class TrackingCart implements ObserverInterface
     {
         // dd("hello");
         try {
-            $sku = $observer->getProduct()->getSku();
+            $sku = $observer->getProduct()->getSku();   
             $quote = $this->checkoutSession->getQuote();
             $quoteId = $quote->getId();
             $customerId = $quote->getCustomerId();

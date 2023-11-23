@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
+
     <route method="GET" url="/V1/tracking-product/api/getlist">
         <service class="Vendor\CustomCartTracking\Api\CartRepositoryInterface" method="getApiData"/>
         <resources>
@@ -8,6 +9,12 @@
         </resources>
     </route>
 
+    <route method="GET" url="/V1/tracking-product/api/getlist/:start/:end">
+        <service class="Vendor\CustomCartTracking\Api\CartRepositoryInterface" method="getApiData"/>
+        <resources>
+            <resource ref="anonymous"/>
+        </resources>
+    </route>
 
     <route method="POST" url="/V1/tracking-product/api/save">
         <service class="Vendor\CustomCartTracking\Api\CartRepositoryInterface" method="save"/>
@@ -17,7 +24,7 @@
     </route>
 
 
-    <route method="GET" url="/V1/tracking-product/api/getid">
+    <route method="GET" url="/V1/tracking-product/api/get/:id">
         <service class="Vendor\CustomCartTracking\Api\CartRepositoryInterface" method="getById"/>
         <resources>
             <resource ref="anonymous"/>
